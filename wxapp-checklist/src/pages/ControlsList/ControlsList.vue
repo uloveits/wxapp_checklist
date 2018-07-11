@@ -13,34 +13,86 @@
         <button class="btnClass" size="default" @click="addCtrl">追加</button>
       </div>
 
+      <div class="weui-panel weui-panel_access">
+        <div class="weui-panel__hd">控件列表</div>
+        <div v-show="isShow" style="text-align: center;padding-top: 10px;padding-bottom: 10px;color: #cccccc;font-size: 14px">{{noData}}</div>
+        <div class="weui-panel__bd" v-for="ctrl in ctrlDatas">
+          <div class="weui-media-box weui-media-box_text">
+            <div class="weui-media-box__desc">{{ctrl.ctrlName}}</div>
+          </div>
+        </div>
+        <div class="weui-panel__ft" @click="showMore" :disabled="disabled">
+          <div class="weui-cell weui-cell_access weui-cell_link">
+            <div class="weui-cell__bd">{{more_or_less}}</div>
+            <div class="weui-cell__ft weui-cell__ft_in-access"></div>
+          </div>
+        </div>
+      </div>
+
     </div>
+    <mptoast />
   </div>
 </template>
 <script>
+  import {mptoast} from 'mptoast'
   export default {
+    //组建渲染的时候执行
+    created () {
+      this.getCtrl(true);
+    },
     data() {
       return {
+        isShow:false,
         ctrlName:'',
+        ctrlDatas:[],
+        more_or_less:'查看更多',
+        noData:'暂无数据',
+        disabled:'true'
       }
     },
     computed: {
 
     },
     methods: {
-      addCtrl() {
-        console.log(1);
-        this.$mptoast('请输入点什么吧', 'none',1500);
-        console.log(2);
-        wx.request({
-          url: 'http://localhost:3000/api/ctrl/getCtrl', //仅为示例，并非真实的接口地址
-          data: {},
-          header: {
-            'content-type': 'application/json' // 默认值
-          },
-          success: function(res) {
-            console.log(res.body)
+      //得到控件列表
+      async getCtrl(isFirst) {
+        let retData = [];
+        let firstData = []
+        retData = await this.$post('ctrl/getCtrl',{});
+
+        if(retData.length == 0 || retData == undefined) {
+          this.isShow = true;
+          return;
+        }
+        if(isFirst){
+          for(let i= 0;i< this.$firstCount; i++) {
+            firstData.push(retData[i]);
           }
-        })
+          this.ctrlDatas = firstData;
+          return;
+        }
+        this.ctrlDatas = retData;
+      },
+      async addCtrl() {
+        if(this.ctrlName == "") {
+          this.$mptoast('请输入点什么吧');
+          return;
+        }
+
+        await this.$post('ctrl/addCtrl',{ctrlName: this.ctrlName,});
+
+        this.getCtrl();
+        this.ctrlName = "";
+      },
+      showMore(){
+        if(this.more_or_less == "查看更多") {
+          this.getCtrl(false);
+          this.more_or_less = "收起"
+        }else {
+          this.getCtrl(true);
+          this.more_or_less = "查看更多"
+        }
+
       }
 
     }
@@ -48,16 +100,6 @@
 </script>
 
 <style scoped>
-  .input_self {
-    background: #ffffff;
-    height: 40px;
-    padding-left:8px;
 
-  }
-  .input_self_div {
-    display: inline-block;
-    vertical-align: middle;
-    padding-top:6px;
-  }
 
 </style>

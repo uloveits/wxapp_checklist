@@ -22,6 +22,7 @@ export default {
     padding-top: 15px;
     padding-left: 16px;
     padding-right: 16px;
+    padding-bottom: 15px;
   }
 
   page {
@@ -39,6 +40,20 @@ export default {
     color: #ffffff;
     height:40px;
     line-height: 2;
+  }
+  .input_self {
+    background: #ffffff;
+    height: 40px;
+    padding-left:8px;
 
+  }
+  .input_self_div {
+    display: inline-block;
+    vertical-align: middle;
+    padding-top:6px;
+  }
+  .weui-panel__hd {
+    font-weight: bold;
+    color: #000;
   }
 </style>
