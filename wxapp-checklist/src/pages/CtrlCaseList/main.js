@@ -1,11 +1,11 @@
 import Vue from 'vue'
-import App from './CtrlCaseList'
+import App from './ctrlCaseList'
 
 const app = new Vue(App)
 app.$mount()
 
 export default {
   config: {
-    navigationBarTitleText: '控件每Case一览',
+    navigationBarTitleText: '控件Case一览',
   }
 }

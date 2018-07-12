@@ -17,17 +17,26 @@ export default {
   .page{
     height: 100%;
   }
-
+  .marginTop {
+    margin-top: 20rpx;
+  }
   .page_padding {
-    padding-top: 15px;
-    padding-left: 16px;
-    padding-right: 16px;
-    padding-bottom: 15px;
+    padding-top: 30rpx;
+    padding-left: 32rpx;
+    padding-right: 32rpx;
+    padding-bottom: 30rpx;
+  }
+  .noDataStyle {
+    text-align: center;
+    padding-top: 20rpx;
+    padding-bottom: 20rpx;
+    color: #cccccc;
+    font-size: 28rpx
   }
 
   page {
     font-family: '微软雅黑', Helvetica, Arial, sans-serif;
-    font-size:16px;
+    font-size:32rpx;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     color: #2c3e50;
@@ -38,22 +47,25 @@ export default {
   .btnClass {
     background: #495060;
     color: #ffffff;
-    height:40px;
+    height:80rpx;
     line-height: 2;
   }
   .input_self {
     background: #ffffff;
-    height: 40px;
-    padding-left:8px;
+    height: 80rpx;
+    padding-left:16rpx;
 
   }
   .input_self_div {
     display: inline-block;
     vertical-align: middle;
-    padding-top:6px;
+    padding-top:12rpx;
   }
   .weui-panel__hd {
     font-weight: bold;
     color: #000;
+  }
+  .weui-cell__bd{
+    font-size: 32rpx;
   }
 </style>

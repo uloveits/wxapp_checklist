@@ -5,11 +5,11 @@
         <div style="color: #d81e06">{{title}}</div>
       </div>
       <div class="weui-cells weui-cells_after-title">
-        <navigator url="/pages/ControlsList/main" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+        <navigator url="/pages/controlsList/main" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
           <div class="weui-cell__bd">控件一览</div>
           <div class="weui-cell__ft weui-cell__ft_in-access"></div>
         </navigator>
-        <navigator url="" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+        <navigator url="/pages/ctrlCaseList/main" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
           <div class="weui-cell__bd">控件每Case一览</div>
           <div class="weui-cell__ft weui-cell__ft_in-access"></div>
         </navigator>

@@ -15,27 +15,28 @@
 
       <div class="weui-panel weui-panel_access">
         <div class="weui-panel__hd">控件列表</div>
-        <div v-show="isShow" style="text-align: center;padding-top: 10px;padding-bottom: 10px;color: #cccccc;font-size: 14px">{{noData}}</div>
-        <div class="weui-panel__bd" v-for="ctrl in ctrlDatas">
+        <div v-show="isShow" class="noDataStyle">{{noData}}</div>
+        <div class="weui-panel__bd" v-for="(ctrl,index) in ctrlDatas" :key='index'>
           <div class="weui-media-box weui-media-box_text">
             <div class="weui-media-box__desc">{{ctrl.ctrlName}}</div>
           </div>
         </div>
-        <div class="weui-panel__ft" @click="showMore" :disabled="disabled">
+        <div  v-show="isShowMore" class="weui-panel__ft" @click="showMore">
           <div class="weui-cell weui-cell_access weui-cell_link">
-            <div class="weui-cell__bd">{{more_or_less}}</div>
+            <div class="weui-cell__bd" style="font-size: 28rpx">{{more_or_less}}</div>
             <div class="weui-cell__ft weui-cell__ft_in-access"></div>
           </div>
         </div>
       </div>
-
+      <mptoast></mptoast>
     </div>
-    <mptoast />
   </div>
 </template>
+
 <script>
-  import {mptoast} from 'mptoast'
+  import mptoast from 'mptoast'
   export default {
+    components:{mptoast},
     //组建渲染的时候执行
     created () {
       this.getCtrl(true);
@@ -43,11 +44,11 @@
     data() {
       return {
         isShow:false,
+        isShowMore:false,
         ctrlName:'',
         ctrlDatas:[],
         more_or_less:'查看更多',
         noData:'暂无数据',
-        disabled:'true'
       }
     },
     computed: {
@@ -63,9 +64,15 @@
         if(retData.length == 0 || retData == undefined) {
           this.isShow = true;
           return;
+        }else if(retData.length >= this.$firstCount) {
+          this.isShowMore = true;
         }
+        this.isShow = false;
+
+        //第一次加载时候不全部加载
         if(isFirst){
-          for(let i= 0;i< this.$firstCount; i++) {
+          let end = (retData.length < this.$firstCount) ? retData.length :this.$firstCount;
+          for(let i= 0;i< end; i++) {
             firstData.push(retData[i]);
           }
           this.ctrlDatas = firstData;
@@ -75,13 +82,11 @@
       },
       async addCtrl() {
         if(this.ctrlName == "") {
-          this.$mptoast('请输入点什么吧');
+          this.$mptoast('请输入要追加的控件名称');
           return;
         }
-
         await this.$post('ctrl/addCtrl',{ctrlName: this.ctrlName,});
-
-        this.getCtrl();
+        this.getCtrl(true);
         this.ctrlName = "";
       },
       showMore(){
@@ -92,9 +97,7 @@
           this.getCtrl(true);
           this.more_or_less = "查看更多"
         }
-
       }
-
     }
   }
 </script>

@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import App from './ControlsList'
+import App from './controlsList'
 
 const app = new Vue(App)
 app.$mount()
