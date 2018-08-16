@@ -57,7 +57,7 @@
     },
     data() {
       return {
-        isShow:false,
+        isShow:true,
         isShowMore:false,
         caseInfoValue:'',
         ctrlId:'',
@@ -71,11 +71,10 @@
     },
     methods: {
       PickerChange(e) {
-        //this.ctrlCaseDatas = [];
+        this.indexPicker = e.mp.detail.value;
         //获取id的控件名字和ID
         this.ctrlName = this.ctrlList[e.mp.detail.value];
         this.ctrlId = retCtrlData[e.mp.detail.value].id;
-
         this.getCtrlCase(true);
 
       },
@@ -99,10 +98,12 @@
 
         if(retCtrlCaseData.length == 0){
           this.isShow = true;
+          this.ctrlCaseDatas = [];
           return;
         }else if(retCtrlCaseData.length > this.$firstCount){
           this.isShowMore = true;
         }
+
         this.isShow = false;
 
         //第一次加载时候不全部加载
@@ -119,7 +120,6 @@
       },
 
       async addCtrlCase(){
-
         if(this.ctrlId == "") {
           this.$mptoast('请选择要添加case的控件');
           return;
